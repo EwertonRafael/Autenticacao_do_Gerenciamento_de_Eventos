@@ -15,3 +15,34 @@ model Users {
 
   @@map("users")
 }
+
+model Events {
+  id          String      @id @default(uuid())
+  name        String
+  dateEvent   DateTime    @default(now())
+  description String
+  category    String
+  locale      String
+  categoryID  Categories?
+  localeID    Locales?
+
+  @@map("events")
+}
+
+model Categories {
+  id      String @id @default(uuid())
+  nome    String
+  eventId String @unique
+  event   Events @relation(fields: [eventId], references: [id])
+
+  @@map("categories")
+}
+
+model Locales {
+  id      String @id @default(uuid())
+  address String
+  eventId String @unique
+  event   Events @relation(fields: [eventId], references: [id])
+
+  @@map("locales")
+}
